@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facture {{invoiceNumber}} - Liife'is Good</title>
+</head>
+
+<body style="margin:0; padding:0; background:#f4f6f8; font-family:Arial, Helvetica, sans-serif; color:#1f2937;">
+
+  <table width="100%" cellpadding="0" cellspacing="0" border="0"
+    style="background:#f4f6f8; padding:35px 15px;">
+
+```
+<tr>
+  <td align="center">
+
+    <!-- FACTURE -->
+    <table width="100%" cellpadding="0" cellspacing="0" border="0"
+      style="
+        max-width:720px;
+        background:#ffffff;
+        border-radius:14px;
+        overflow:hidden;
+        box-shadow:0 4px 20px rgba(0,0,0,0.08);
+      ">
+
+      <!-- En-tête -->
+      <tr>
+        <td style="
+          background:linear-gradient(135deg,#1f4f8f,#2c6bb2);
+          padding:35px 40px;
+        ">
+
+          <table width="100%" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+
+              <!-- Société -->
+              <td valign="middle">
+
+                <div style="
+                  font-size:26px;
+                  font-weight:bold;
+                  color:#ffffff;
+                  margin-bottom:6px;
+                ">
+                  Liife'is Good
+                </div>
+
+                <div style="
+                  font-size:13px;
+                  color:#dbeafe;
+                ">
+                  Complexe Immobilier
+                </div>
+
+              </td>
+
+              <!-- Titre -->
+              <td align="right" valign="middle">
+
+                <div style="
+                  font-size:28px;
+                  font-weight:bold;
+                  letter-spacing:1px;
+                  color:#ffffff;
+                ">
+                  FACTURE
+                </div>
+
+              </td>
+
+            </tr>
+          </table>
+
+        </td>
+      </tr>
+
+      <!-- Informations facture -->
+      <tr>
+        <td style="padding:35px 40px 15px;">
+
+          <table width="100%" cellpadding="0" cellspacing="0" border="0">
+
+            <tr>
+
+              <!-- Facture -->
+              <td width="50%" valign="top">
+
+                <div style="
+                  font-size:11px;
+                  text-transform:uppercase;
+                  letter-spacing:1px;
+                  color:#9ca3af;
+                  margin-bottom:8px;
+                ">
+                  Numéro de facture
+                </div>
+
+                <div style="
+                  font-size:16px;
+                  font-weight:bold;
+                  color:#1f2937;
+                ">
+                  {{invoiceNumber}}
+                </div>
+
+                <div style="
+                  margin-top:15px;
+                  font-size:11px;
+                  text-transform:uppercase;
+                  letter-spacing:1px;
+                  color:#9ca3af;
+                ">
+                  Date d'émission
+                </div>
+
+                <div style="
+                  margin-top:6px;
+                  font-size:14px;
+                  color:#374151;
+                ">
+                  {{date}}
+                </div>
+
+              </td>
+
+              <!-- Client -->
+              <td width="50%" valign="top">
+
+                <div style="
+                  font-size:11px;
+                  text-transform:uppercase;
+                  letter-spacing:1px;
+                  color:#9ca3af;
+                  margin-bottom:8px;
+                ">
+                  Facturé à
+                </div>
+
+                <div style="
+                  font-size:16px;
+                  font-weight:bold;
+                  color:#1f2937;
+                ">
+                  {{booking.guestName}}
+                </div>
+
+                <div style="
+                  margin-top:6px;
+                  font-size:14px;
+                  color:#6b7280;
+                  word-break:break-word;
+                ">
+                  {{booking.guestEmail}}
+                </div>
+
+              </td>
+
+            </tr>
+
+          </table>
+
+        </td>
+      </tr>
+
+      <!-- Ligne séparatrice -->
+      <tr>
+        <td style="padding:10px 40px 0;">
+          <div style="height:1px; background:#e5e7eb;"></div>
+        </td>
+      </tr>
+
+      <!-- Tableau des prestations -->
+      <tr>
+        <td style="padding:25px 40px;">
+
+          <table width="100%" cellpadding="0" cellspacing="0" border="0"
+            style="border-collapse:collapse;">
+
+            <thead>
+
+              <tr>
+
+                <th align="left" style="
+                  padding:14px 12px;
+                  background:#2c5aa0;
+                  color:#ffffff;
+                  font-size:12px;
+                  text-transform:uppercase;
+                  letter-spacing:.4px;
+                  border-radius:6px 0 0 0;
+                ">
+                  Description
+                </th>
+
+                <th align="center" style="
+                  padding:14px 12px;
+                  background:#2c5aa0;
+                  color:#ffffff;
+                  font-size:12px;
+                  text-transform:uppercase;
+                  letter-spacing:.4px;
+                ">
+                  Quantité
+                </th>
+
+                <th align="right" style="
+                  padding:14px 12px;
+                  background:#2c5aa0;
+                  color:#ffffff;
+                  font-size:12px;
+                  text-transform:uppercase;
+                  letter-spacing:.4px;
+                ">
+                  Prix unitaire
+                </th>
+
+                <th align="right" style="
+                  padding:14px 12px;
+                  background:#2c5aa0;
+                  color:#ffffff;
+                  font-size:12px;
+                  text-transform:uppercase;
+                  letter-spacing:.4px;
+                  border-radius:0 6px 0 0;
+                ">
+                  Total
+                </th>
+
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              <tr>
+
+                <td style="
+                  padding:18px 12px;
+                  border-bottom:1px solid #e5e7eb;
+                  font-size:14px;
+                  color:#374151;
+                ">
+                  <strong>Réservation {{booking.propertyType}}</strong>
+                  <br>
+                  <span style="
+                    font-size:12px;
+                    color:#9ca3af;
+                  ">
+                    Référence : {{booking.reference}}
+                  </span>
+                </td>
+
+                <td align="center" style="
+                  padding:18px 12px;
+                  border-bottom:1px solid #e5e7eb;
+                  font-size:14px;
+                  color:#374151;
+                ">
+                  1
+                </td>
+
+                <td align="right" style="
+                  padding:18px 12px;
+                  border-bottom:1px solid #e5e7eb;
+                  font-size:14px;
+                  color:#374151;
+                ">
+                  {{booking.totalAmount}} FCFA
+                </td>
+
+                <td align="right" style="
+                  padding:18px 12px;
+                  border-bottom:1px solid #e5e7eb;
+                  font-size:14px;
+                  font-weight:bold;
+                  color:#1f2937;
+                ">
+                  {{booking.totalAmount}} FCFA
+                </td>
+
+              </tr>
+
+            </tbody>
+
+          </table>
+
+        </td>
+      </tr>
+
+      <!-- Total -->
+      <tr>
+        <td style="padding:0 40px 35px;">
+
+          <table width="100%" cellpadding="0" cellspacing="0" border="0">
+
+            <tr>
+              <td></td>
+
+              <td width="280" style="
+                background:#f8fafc;
+                border:1px solid #e5e7eb;
+                border-radius:10px;
+                padding:20px;
+              ">
+
+                <table width="100%" cellpadding="0" cellspacing="0" border="0">
+
+                  <tr>
+
+                    <td style="
+                      padding-bottom:12px;
+                      font-size:13px;
+                      color:#6b7280;
+                    ">
+                      Sous-total
+                    </td>
+
+                    <td align="right" style="
+                      padding-bottom:12px;
+                      font-size:13px;
+                      color:#374151;
+                    ">
+                      {{booking.totalAmount}} FCFA
+                    </td>
+
+                  </tr>
+
+                  <tr>
+                    <td colspan="2">
+                      <div style="height:1px; background:#e5e7eb;"></div>
+                    </td>
+                  </tr>
+
+                  <tr>
+
+                    <td style="
+                      padding-top:14px;
+                      font-size:16px;
+                      font-weight:bold;
+                      color:#1f2937;
+                    ">
+                      TOTAL
+                    </td>
+
+                    <td align="right" style="
+                      padding-top:14px;
+                      font-size:20px;
+                      font-weight:bold;
+                      color:#2c5aa0;
+                    ">
+                      {{booking.totalAmount}} FCFA
+                    </td>
+
+                  </tr>
+
+                </table>
+
+              </td>
+
+            </tr>
+
+          </table>
+
+        </td>
+      </tr>
+
+      <!-- Message -->
+      <tr>
+        <td style="padding:0 40px 35px;">
+
+          <table width="100%" cellpadding="0" cellspacing="0" border="0"
+            style="
+              background:#eff6ff;
+              border-left:4px solid #2c6bb2;
+              border-radius:6px;
+            ">
+
+            <tr>
+
+              <td style="
+                padding:15px 16px;
+                font-size:13px;
+                line-height:1.6;
+                color:#475569;
+              ">
+
+                <strong style="color:#1e40af;">
+                  Informations
+                </strong>
+
+                <br>
+
+                Cette facture correspond à la réservation
+                <strong>{{booking.reference}}</strong>.
+                Veuillez conserver ce document pour vos archives.
+
+              </td>
+
+            </tr>
+
+          </table>
+
+        </td>
+      </tr>
+
+      <!-- Footer -->
+      <tr>
+        <td style="
+          background:#f8fafc;
+          border-top:1px solid #e5e7eb;
+          padding:28px 40px;
+          text-align:center;
+        ">
+
+          <p style="
+            margin:0 0 8px;
+            font-size:14px;
+            font-weight:bold;
+            color:#374151;
+          ">
+            Merci pour votre confiance !
+          </p>
+
+          <p style="
+            margin:0 0 10px;
+            font-size:12px;
+            color:#6b7280;
+          ">
+            Liife'is Good — Complexe Immobilier
+          </p>
+
+          <p style="
+            margin:0;
+            font-size:11px;
+            line-height:1.5;
+            color:#9ca3af;
+          ">
+            Document généré automatiquement.
+            <br>
+            © Liife'is Good — Tous droits réservés.
+          </p>
+
+        </td>
+      </tr>
+
+    </table>
+
+  </td>
+</tr>
+```
+
+  </table>
+
+</body>
+</html>

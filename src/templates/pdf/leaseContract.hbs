@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contrat de Bail Professionnel - Liife'is Good</title>
+
+  <style>
+    @page {
+      size: A4;
+      margin: 22mm 20mm 22mm 20mm;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      color: #222222;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .document {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* ==============================
+       HEADER
+    ============================== */
+
+    .header {
+      text-align: center;
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+      border-bottom: 3px solid #2c5aa0;
+    }
+
+    .company {
+      margin: 0;
+      color: #2c5aa0;
+      font-size: 25px;
+      font-weight: 700;
+      letter-spacing: .3px;
+    }
+
+    .company-subtitle {
+      margin: 4px 0 0;
+      color: #6b7280;
+      font-size: 12px;
+    }
+
+    .title {
+      margin: 25px 0 8px;
+      text-align: center;
+      color: #1f3f70;
+      font-size: 23px;
+      font-weight: 700;
+      letter-spacing: .5px;
+    }
+
+    .subtitle {
+      margin: 0 0 30px;
+      text-align: center;
+      color: #6b7280;
+      font-size: 12px;
+      font-style: italic;
+    }
+
+    /* ==============================
+       SECTION
+    ============================== */
+
+    .section {
+      margin-bottom: 25px;
+      page-break-inside: avoid;
+    }
+
+    .section-title {
+      margin: 0 0 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #d9dee7;
+      color: #2c5aa0;
+      font-size: 15px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    /* ==============================
+       INFORMATIONS
+    ============================== */
+
+    .info-box {
+      margin: 15px 0 25px;
+      padding: 20px;
+      background: #f7f9fc;
+      border: 1px solid #dfe5ee;
+      border-left: 5px solid #2c5aa0;
+      border-radius: 5px;
+    }
+
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .info-table td {
+      padding: 9px 6px;
+      vertical-align: top;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .info-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .info-label {
+      width: 38%;
+      color: #6b7280;
+      font-weight: 600;
+    }
+
+    .info-value {
+      color: #1f2937;
+      font-weight: 600;
+    }
+
+    /* ==============================
+       INTRODUCTION
+    ============================== */
+
+    .intro {
+      margin: 20px 0;
+      padding: 15px 18px;
+      background: #f8fafc;
+      border-radius: 4px;
+      text-align: justify;
+    }
+
+    p {
+      margin: 8px 0;
+      text-align: justify;
+    }
+
+    /* ==============================
+       CONDITIONS
+    ============================== */
+
+    .terms-box {
+      margin-top: 12px;
+      padding: 20px;
+      min-height: 150px;
+      background: #fafafa;
+      border: 1px solid #e1e5ea;
+      border-radius: 5px;
+      text-align: justify;
+    }
+
+    .clause-title {
+      margin: 18px 0 8px;
+      color: #2c5aa0;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    /* ==============================
+       SIGNATURES
+    ============================== */
+
+    .signature-section {
+      margin-top: 65px;
+      page-break-inside: avoid;
+    }
+
+    .signature-date {
+      margin-bottom: 50px;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .signature-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 35px 0;
+    }
+
+    .signature-cell {
+      width: 50%;
+      text-align: center;
+      vertical-align: top;
+    }
+
+    .signature-title {
+      margin-bottom: 55px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+
+    .signature-line {
+      height: 1px;
+      background: #333333;
+      margin-bottom: 10px;
+    }
+
+    .signature-name {
+      font-size: 12px;
+      color: #555555;
+    }
+
+    /* ==============================
+       NOTICE
+    ============================== */
+
+    .notice {
+      margin-top: 30px;
+      padding: 14px 16px;
+      background: #f5f8fc;
+      border-left: 4px solid #2c5aa0;
+      color: #4b5563;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    /* ==============================
+       FOOTER
+    ============================== */
+
+    .footer {
+      margin-top: 45px;
+      padding-top: 15px;
+      border-top: 1px solid #d9dee7;
+      text-align: center;
+      color: #8a8f98;
+      font-size: 10px;
+    }
+
+    .footer p {
+      margin: 3px 0;
+      text-align: center;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="document">
+
+```
+<!-- ==============================
+     EN-TÊTE
+============================== -->
+
+<div class="header">
+
+  <h2 class="company">
+    Liife'is Good
+  </h2>
+
+  <p class="company-subtitle">
+    Complexe Immobilier
+  </p>
+
+  <h1 class="title">
+    CONTRAT DE BAIL PROFESSIONNEL
+  </h1>
+
+  <p class="subtitle">
+    Contrat de location à usage professionnel
+  </p>
+
+</div>
+
+
+<!-- ==============================
+     PRÉAMBULE
+============================== -->
+
+<div class="section">
+
+  <h2 class="section-title">
+    Préambule
+  </h2>
+
+  <div class="intro">
+
+    <p>
+      Le présent contrat de bail professionnel définit les conditions
+      dans lesquelles un bien immobilier est mis à la disposition du
+      Locataire à des fins professionnelles.
+    </p>
+
+    <p>
+      Les parties déclarent accepter les conditions définies dans le
+      présent contrat et s'engagent à respecter leurs obligations
+      respectives pendant toute la durée du bail.
+    </p>
+
+  </div>
+
+</div>
+
+
+<!-- ==============================
+     IDENTIFICATION
+============================== -->
+
+<div class="section">
+
+  <h2 class="section-title">
+    1. Identification du bien et du locataire
+  </h2>
+
+  <div class="info-box">
+
+    <table class="info-table">
+
+      <tr>
+        <td class="info-label">
+          Bureau / Bien immobilier
+        </td>
+
+        <td class="info-value">
+          {{contract.propertyId}}
+        </td>
+      </tr>
+
+      <tr>
+        <td class="info-label">
+          Locataire
+        </td>
+
+        <td class="info-value">
+          {{contract.tenantId}}
+        </td>
+      </tr>
+
+      <tr>
+        <td class="info-label">
+          Période du bail
+        </td>
+
+        <td class="info-value">
+          {{contract.startDate}} — {{contract.endDate}}
+        </td>
+      </tr>
+
+      <tr>
+        <td class="info-label">
+          Loyer mensuel
+        </td>
+
+        <td class="info-value">
+          {{contract.monthlyRent}} FCFA / mois
+        </td>
+      </tr>
+
+      <tr>
+        <td class="info-label">
+          Montant de la caution
+        </td>
+
+        <td class="info-value">
+          {{contract.depositAmount}} FCFA
+        </td>
+      </tr>
+
+    </table>
+
+  </div>
+
+</div>
+
+
+<!-- ==============================
+     OBJET
+============================== -->
+
+<div class="section">
+
+  <h2 class="section-title">
+    2. Objet du contrat
+  </h2>
+
+  <p>
+    Le présent contrat a pour objet la mise à disposition du bien
+    immobilier identifié ci-dessus au profit du Locataire, pour
+    l'exercice de ses activités professionnelles.
+  </p>
+
+</div>
+
+
+<!-- ==============================
+     DURÉE
+============================== -->
+
+<div class="section">
+
+  <h2 class="section-title">
+    3. Durée du bail
+  </h2>
+
+  <p>
+    Le présent bail est conclu pour la période allant du
+    <strong>{{contract.startDate}}</strong> au
+    <strong>{{contract.endDate}}</strong>.
+  </p>
+
+  <p>
+    Toute modification ou prolongation de la durée du bail devra être
+    effectuée conformément aux conditions convenues entre les parties.
+  </p>
+
+</div>
+
+
+<!-- ==============================
+     CONDITIONS FINANCIÈRES
+============================== -->
+
+<div class="section">
+
+  <h2 class="section-title">
+    4. Conditions financières
+  </h2>
+
+  <table class="info-table" style="border:1px solid #dfe5ee;">
+
+    <tr>
+      <td class="info-label" style="padding:12px;">
+        Loyer mensuel
+      </td>
+
+      <td class="info-value" style="padding:12px; text-align:right;">
+        {{contract.monthlyRent}} FCFA
+      </td>
+    </tr>
+
+    <tr>
+      <td class="info-label" style="padding:12px;">
+        Caution
+      </td>
+
+      <td class="info-value" style="padding:12px; text-align:right;">
+        {{contract.depositAmount}} FCFA
+      </td>
+    </tr>
+
+  </table>
+
+</div>
+
+
+<!-- ==============================
+     CONDITIONS GÉNÉRALES
+============================== -->
+
+<div class="section">
+
+  <h2 class="section-title">
+    5. Conditions générales
+  </h2>
+
+  <div class="terms-box">
+    {{contract.terms}}
+  </div>
+
+</div>
+
+
+<!-- ==============================
+     ENGAGEMENT
+============================== -->
+
+<div class="section">
+
+  <h2 class="section-title">
+    6. Engagement des parties
+  </h2>
+
+  <p>
+    Les parties reconnaissent avoir pris connaissance de l'ensemble
+    des dispositions du présent contrat et déclarent les accepter
+    sans réserve.
+  </p>
+
+  <p>
+    Le Bailleur et le Locataire s'engagent à respecter les obligations
+    qui leur incombent conformément aux dispositions du présent contrat.
+  </p>
+
+  <div class="notice">
+
+    <strong>Document contractuel :</strong>
+    Le présent document constitue un contrat de bail professionnel.
+    Toute modification apportée aux présentes conditions devra être
+    acceptée par les parties concernées.
+
+  </div>
+
+</div>
+
+
+<!-- ==============================
+     SIGNATURES
+============================== -->
+
+<div class="signature-section">
+
+  <h2 class="section-title">
+    7. Signatures
+  </h2>
+
+  <p class="signature-date">
+    Fait à Douala, le <strong>{{date}}</strong>
+  </p>
+
+  <table class="signature-table">
+
+    <tr>
+
+      <td class="signature-cell">
+
+        <div class="signature-title">
+          LE BAILLEUR
+        </div>
+
+        <div class="signature-line"></div>
+
+        <div class="signature-name">
+          Liife'is Good
+        </div>
+
+        <div class="signature-name">
+          Signature et cachet
+        </div>
+
+      </td>
+
+      <td class="signature-cell">
+
+        <div class="signature-title">
+          LE LOCATAIRE
+        </div>
+
+        <div class="signature-line"></div>
+
+        <div class="signature-name">
+          {{contract.tenantId}}
+        </div>
+
+        <div class="signature-name">
+          Signature
+        </div>
+
+      </td>
+
+    </tr>
+
+  </table>
+
+</div>
+
+
+<!-- ==============================
+     FOOTER
+============================== -->
+
+<div class="footer">
+
+  <p>
+    <strong>Liife'is Good — Complexe Immobilier</strong>
+  </p>
+
+  <p>
+    Contrat de bail professionnel
+  </p>
+
+  <p>
+    Document généré électroniquement
+  </p>
+
+</div>
+```
+
+  </div>
+
+</body>
+</html>

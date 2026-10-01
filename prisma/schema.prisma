@@ -1,0 +1,1076 @@
+// ============================================================
+// LIIF'IS GOOD
+// Prisma 7.10.x + MySQL
+// ============================================================
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma/client"
+}
+
+
+datasource db {
+  provider = "mysql"
+}
+
+// ============================================================
+// ENUMS
+// ============================================================
+
+enum AmenityCategory {
+  room
+  apartment
+  office
+  common
+}
+
+enum PropertyType {
+  room
+  apartment
+  office
+}
+
+enum RoomCategory {
+  standard
+  premium
+  vip
+}
+
+enum RentalType {
+  hour
+  day
+  week
+  month
+  long_term
+}
+
+enum BookingStatus {
+  pending
+  confirmed
+  checked_in
+  checked_out
+  cancelled
+}
+
+enum CalendarBlockType {
+  maintenance
+  private
+  other
+}
+
+enum ContractType {
+  short_term
+  long_term
+}
+
+enum ContractStatus {
+  draft
+  sent
+  signed
+  active
+  terminated
+  expired
+}
+
+enum DepositStatus {
+  held
+  returned
+  partially_deducted
+  fully_deducted
+}
+
+enum IdentityDocumentType {
+  passport
+  id_card
+  driver_license
+  other
+}
+
+enum InvoiceStatus {
+  draft
+  issued
+  paid
+  cancelled
+}
+
+enum ManualBookingStatus {
+  pending
+  approved
+  rejected
+  confirmed
+}
+
+enum MediaType {
+  image
+  video
+  document
+}
+
+enum NotificationType {
+  email
+  sms
+  whatsapp
+  push
+}
+
+enum NotificationStatus {
+  pending
+  sent
+  failed
+  read
+}
+
+enum PaymentMethodType {
+  mobile_money
+  card
+  cash
+  aggregator
+}
+
+enum PaymentMethodCode {
+  mtn_mobile_money
+  orange_money
+  credit_card
+  cash
+  paydunya
+  cinetpay
+  opay
+}
+
+enum PaymentType {
+  deposit
+  balance
+  full
+  refund
+  penalty
+}
+
+enum PaymentStatus {
+  pending
+  processing
+  completed
+  failed
+  refunded
+}
+
+enum PaymentTransactionStatus {
+  pending
+  success
+  failed
+  cancelled
+}
+
+enum PromotionType {
+  percentage
+  fixed_amount
+  free_nights
+}
+
+enum PromotionScope {
+  global
+  room
+  apartment
+  office
+  property
+}
+
+enum PublicationStatus {
+  draft
+  published
+  archived
+}
+
+enum WhatsappSessionStatus {
+  active
+  inactive
+  expired
+}
+
+enum PricingDurationType {
+  night
+  week
+  month
+  hour
+  day
+}
+
+// ============================================================
+// USERS / AUTHENTIFICATION
+// ============================================================
+
+model User {
+  id String @id @default(uuid()) @db.Char(36)
+
+  firstName String @db.VarChar(50)
+  lastName  String @db.VarChar(50)
+
+  email    String @unique @db.VarChar(100)
+  phone    String @db.VarChar(20)
+  password String @db.VarChar(255)
+  nationalite String? @db.VarChar(255)
+  adresse  String? @db.VarChar(255)
+
+  roleId String @db.Char(36)
+
+  isActive      Boolean @default(true)
+  emailVerified Boolean @default(false)
+  phoneVerified Boolean @default(false)
+
+  lastLoginAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  role Role @relation(fields: [roleId], references: [id])
+
+  bookings              Booking[]
+  identityDocuments     IdentityDocument[]
+  notifications         Notification[]
+  searchHistory         UserSearchHistory[]
+  publications          Publication[]
+  manualBookingRequests ManualBookingRequest[]
+  auditLogs             AuditLog[]
+
+  @@index([roleId])
+  @@map("users")
+}
+
+model Role {
+  id String @id @default(uuid()) @db.Char(36)
+
+  name        String  @db.VarChar(50)
+  slug        String  @unique @db.VarChar(50)
+  description String? @db.Text
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users User[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id String @id @default(uuid()) @db.Char(36)
+
+  name        String  @db.VarChar(50)
+  slug        String  @unique @db.VarChar(50)
+  description String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("permissions")
+}
+
+// ============================================================
+// PROPRIÉTÉS
+// ============================================================
+
+model Property {
+  id String @id @default(uuid()) @db.Char(36)
+
+  name String       @db.VarChar(100)
+  type PropertyType
+
+  description String? @db.Text
+  address     String? @db.VarChar(255)
+  city        String? @db.VarChar(100)
+  country     String  @default("Cameroun") @db.VarChar(100)
+
+  latitude  Decimal? @db.Decimal(10, 8)
+  longitude Decimal? @db.Decimal(11, 8)
+
+  isActive Boolean @default(true)
+
+  pricePerDay Decimal? @db.Decimal(12, 2)
+  basePrice   Decimal? @db.Decimal(12, 2)
+  price       Decimal? @db.Decimal(12, 2)
+
+  category  String?  @db.VarChar(50)
+  capacity  Int?
+  bedrooms  Int?
+  bathrooms Int?
+  surface   Decimal? @db.Decimal(10, 2)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  rooms        Room[]
+  apartments   Apartment[]
+  offices      Office[]
+  media        Media[]
+  amenities    PropertyAmenity[]
+  pricingRules PricingRule[]
+
+  @@index([type])
+  @@index([city])
+  @@index([isActive])
+  @@map("properties")
+}
+
+model Room {
+  id String @id @default(uuid()) @db.Char(36)
+
+  propertyId String @db.Char(36)
+
+  roomNumber String       @db.VarChar(20)
+  category   RoomCategory
+
+  pricePerNight Decimal @db.Decimal(12, 2)
+
+  capacity Int @default(2)
+
+  bedType String @db.VarChar(50)
+
+  sizeSqm Decimal? @db.Decimal(6, 2)
+
+  floor Int?
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  property Property @relation(fields: [propertyId], references: [id])
+
+  @@index([propertyId])
+  @@index([roomNumber])
+  @@map("rooms")
+}
+
+model Apartment {
+  id String @id @default(uuid()) @db.Char(36)
+
+  propertyId String @db.Char(36)
+
+  name String @db.VarChar(100)
+
+  bedrooms  Int
+  bathrooms Int
+
+  sizeSqm Decimal @db.Decimal(6, 2)
+
+  maxGuests Int
+
+  pricePerNight Decimal  @db.Decimal(12, 2)
+  pricePerWeek  Decimal? @db.Decimal(12, 2)
+  pricePerMonth Decimal? @db.Decimal(12, 2)
+
+  depositAmount Decimal @db.Decimal(12, 2)
+
+  kitchenType String? @db.VarChar(50)
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  property Property @relation(fields: [propertyId], references: [id])
+
+  @@index([propertyId])
+  @@map("apartments")
+}
+
+model Office {
+  id String @id @default(uuid()) @db.Char(36)
+
+  propertyId String @db.Char(36)
+
+  name String @db.VarChar(100)
+
+  sizeSqm Decimal @db.Decimal(6, 2)
+
+  maxCapacity Int
+
+  rentalType RentalType
+
+  pricePerHour  Decimal? @db.Decimal(12, 2)
+  pricePerDay   Decimal? @db.Decimal(12, 2)
+  pricePerWeek  Decimal? @db.Decimal(12, 2)
+  pricePerMonth Decimal? @db.Decimal(12, 2)
+
+  equipment String? @db.Text
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  property Property @relation(fields: [propertyId], references: [id])
+
+  @@index([propertyId])
+  @@map("offices")
+}
+
+// ============================================================
+// AMENITIES
+// ============================================================
+
+model Amenity {
+  id String @id @default(uuid()) @db.Char(36)
+
+  name String @db.VarChar(100)
+  slug String @unique @db.VarChar(100)
+
+  category AmenityCategory
+
+  icon        String? @db.VarChar(255)
+  description String? @db.Text
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  properties PropertyAmenity[]
+
+  @@map("amenities")
+}
+
+model PropertyAmenity {
+  propertyId String @db.Char(36)
+  amenityId  String @db.Char(36)
+
+  isFree    Boolean  @default(true)
+  extraCost Decimal? @db.Decimal(12, 2)
+  notes     String?  @db.VarChar(255)
+
+  property Property @relation(fields: [propertyId], references: [id])
+  amenity  Amenity  @relation(fields: [amenityId], references: [id])
+
+  @@id([propertyId, amenityId])
+  @@index([amenityId])
+  @@map("property_amenities")
+}
+
+// ============================================================
+// TARIFICATION
+// ============================================================
+
+model PricingRule {
+  id String @id @default(uuid()) @db.Char(36)
+
+  propertyId String @db.Char(36)
+
+  propertyType PropertyType
+  durationType PricingDurationType
+
+  price Decimal @db.Decimal(12, 2)
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  property Property @relation(fields: [propertyId], references: [id])
+
+  @@index([propertyId])
+  @@index([propertyType, durationType])
+  @@map("pricing_rules")
+}
+
+// ============================================================
+// PROMOTIONS
+// ============================================================
+
+model Promotion {
+  id String @id @default(uuid()) @db.Char(36)
+
+  code String @unique @db.VarChar(20)
+
+  description String? @db.Text
+
+  type PromotionType
+
+  value Decimal @db.Decimal(10, 2)
+
+  scope PromotionScope @default(global)
+
+  propertyId String? @db.Char(36)
+
+  startDate DateTime
+  endDate   DateTime
+
+  maxUses   Int?
+  usedCount Int  @default(0)
+
+  minBookingAmount Decimal? @db.Decimal(12, 2)
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([propertyId])
+  @@index([code])
+  @@index([startDate, endDate])
+  @@map("promotions")
+}
+
+// ============================================================
+// POLITIQUES D'ANNULATION
+// ============================================================
+
+model CancellationPolicy {
+  id String @id @default(uuid()) @db.Char(36)
+
+  propertyType PropertyType
+
+  hoursBefore Int
+
+  refundPercentage Decimal @db.Decimal(5, 2)
+
+  description String? @db.Text
+
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([propertyType])
+  @@map("cancellation_policies")
+}
+
+// ============================================================
+// RÉSERVATIONS
+// ============================================================
+
+model Booking {
+  id String @id @default(uuid()) @db.Char(36)
+
+  reference String @unique @db.VarChar(50)
+
+  propertyId   String       @db.Char(36)
+  propertyType PropertyType
+
+  userId String? @db.Char(36)
+
+  guestName  String @db.VarChar(100)
+  guestEmail String @db.VarChar(100)
+  guestPhone String @db.VarChar(20)
+
+  startDate DateTime
+  endDate   DateTime
+
+  numberOfGuests Int
+
+  status BookingStatus @default(pending)
+
+  paymentStatus PaymentStatus @default(pending)
+
+  totalAmount   Decimal @db.Decimal(12, 2)
+  depositAmount Decimal @db.Decimal(12, 2)
+  paidAmount    Decimal @default(0) @db.Decimal(12, 2)
+
+  specialRequests    String? @db.Text
+  cancellationReason String? @db.Text
+
+  cancelledAt  DateTime?
+  checkedInAt  DateTime?
+  checkedOutAt DateTime?
+
+  createdBy String? @db.Char(36)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user                  User?                  @relation(fields: [userId], references: [id])
+  payments              Payment[]
+  deposits              Deposit[]
+  invoices              Invoice[]
+  notifications         Notification[]
+  identityDocuments     IdentityDocument[]
+  manualBookingRequests ManualBookingRequest[]
+
+  @@index([propertyId])
+  @@index([userId])
+  @@index([startDate, endDate])
+  @@index([status])
+  @@map("bookings")
+}
+
+// ============================================================
+// BLOCS CALENDRIER
+// ============================================================
+
+model CalendarBlock {
+  id String @id @default(uuid()) @db.Char(36)
+
+  propertyId String @db.Char(36)
+
+  startDate DateTime
+  endDate   DateTime
+
+  reason String? @db.VarChar(255)
+
+  type CalendarBlockType @default(maintenance)
+
+  createdBy String? @db.Char(36)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([propertyId])
+  @@index([startDate, endDate])
+  @@map("calendar_blocks")
+}
+
+// ============================================================
+// PAIEMENTS
+// ============================================================
+
+model Payment {
+  id String @id @default(uuid()) @db.Char(36)
+
+  bookingId String @db.Char(36)
+
+  transactionId String @db.VarChar(100)
+
+  reference String @unique @db.VarChar(100)
+
+  amount Decimal @db.Decimal(12, 2)
+
+  method PaymentMethodCode
+
+  type PaymentType
+
+  status PaymentStatus @default(pending)
+
+  phoneNumber String? @db.VarChar(20)
+
+  providerResponse String? @db.Text
+
+  paidAt DateTime?
+
+  refundedAt DateTime?
+
+  refundReason String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  booking      Booking              @relation(fields: [bookingId], references: [id])
+  transactions PaymentTransaction[]
+
+  @@index([bookingId])
+  @@index([transactionId])
+  @@index([status])
+  @@map("payments")
+}
+
+model PaymentTransaction {
+  id String @id @default(uuid()) @db.Char(36)
+
+  paymentId String @db.Char(36)
+
+  aggregator String @db.VarChar(50)
+
+  externalTransactionId String? @db.VarChar(100)
+
+  status PaymentTransactionStatus @default(pending)
+
+  requestPayload String? @db.Text
+
+  responsePayload String? @db.Text
+
+  processedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  payment Payment @relation(fields: [paymentId], references: [id])
+
+  @@index([paymentId])
+  @@index([externalTransactionId])
+  @@index([status])
+  @@map("payment_transactions")
+}
+
+model PaymentMethodConfig {
+  id String @id @default(uuid()) @db.Char(36)
+
+  name String @db.VarChar(50)
+
+  slug String @unique @db.VarChar(50)
+
+  type PaymentMethodType
+
+  provider String? @db.VarChar(50)
+
+  isActive Boolean @default(true)
+
+  config String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("payment_methods")
+}
+
+// ============================================================
+// CAUTIONS
+// ============================================================
+
+model Deposit {
+  id String @id @default(uuid()) @db.Char(36)
+
+  bookingId String @db.Char(36)
+
+  amount Decimal @db.Decimal(12, 2)
+
+  status DepositStatus @default(held)
+
+  deductionReason String? @db.Text
+
+  deductedAmount Decimal? @db.Decimal(12, 2)
+
+  returnedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  booking Booking @relation(fields: [bookingId], references: [id])
+
+  @@index([bookingId])
+  @@map("deposits")
+}
+
+// ============================================================
+// FACTURES
+// ============================================================
+
+model Invoice {
+  id String @id @default(uuid()) @db.Char(36)
+
+  bookingId String @db.Char(36)
+
+  invoiceNumber String @unique @db.VarChar(50)
+
+  amount Decimal @db.Decimal(12, 2)
+
+  taxAmount Decimal @default(0) @db.Decimal(12, 2)
+
+  totalAmount Decimal @db.Decimal(12, 2)
+
+  status InvoiceStatus @default(draft)
+
+  issuedAt DateTime?
+  paidAt   DateTime?
+
+  pdfUrl String? @db.VarChar(255)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  booking Booking @relation(fields: [bookingId], references: [id])
+
+  @@index([bookingId])
+  @@map("invoices")
+}
+
+// ============================================================
+// CONTRATS
+// ============================================================
+
+model Contract {
+  id String @id @default(uuid()) @db.Char(36)
+
+  propertyId String @db.Char(36)
+
+  tenantId String @db.Char(36)
+
+  type ContractType
+
+  startDate DateTime
+  endDate   DateTime
+
+  monthlyRent Decimal @db.Decimal(12, 2)
+
+  depositAmount Decimal @db.Decimal(12, 2)
+
+  terms String @db.Text
+
+  clauses String? @db.Text
+
+  status ContractStatus @default(draft)
+
+  signedAt DateTime?
+
+  pdfUrl String? @db.VarChar(255)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([propertyId])
+  @@index([tenantId])
+  @@index([status])
+  @@map("contracts")
+}
+
+// ============================================================
+// DOCUMENTS D'IDENTITÉ
+// ============================================================
+
+model IdentityDocument {
+  id String @id @default(uuid()) @db.Char(36)
+
+  userId String? @db.Char(36)
+
+  bookingId String? @db.Char(36)
+
+  type IdentityDocumentType
+
+  documentNumber String? @db.VarChar(100)
+
+  fileUrl String @db.VarChar(255)
+
+  verified Boolean @default(false)
+
+  uploadedAt DateTime @default(now())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User?    @relation(fields: [userId], references: [id])
+  booking Booking? @relation(fields: [bookingId], references: [id])
+
+  @@index([userId])
+  @@index([bookingId])
+  @@map("identity_documents")
+}
+
+// ============================================================
+// MÉDIAS
+// ============================================================
+
+model Media {
+  id String @id @default(uuid()) @db.Char(36)
+
+  propertyId String @db.Char(36)
+
+  url String @db.VarChar(255)
+
+  type MediaType
+
+  title String? @db.VarChar(100)
+
+  order Int @default(0)
+
+  isPrimary Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  property Property @relation(fields: [propertyId], references: [id])
+
+  @@index([propertyId])
+  @@index([propertyId, order])
+  @@map("media")
+}
+
+// ============================================================
+// NOTIFICATIONS
+// ============================================================
+
+model Notification {
+  id String @id @default(uuid()) @db.Char(36)
+
+  userId String? @db.Char(36)
+
+  bookingId String? @db.Char(36)
+
+  type NotificationType
+
+  channel String @db.VarChar(50)
+
+  subject String? @db.VarChar(255)
+
+  content String @db.Text
+
+  status NotificationStatus @default(pending)
+
+  sentAt DateTime?
+
+  readAt DateTime?
+
+  errorMessage String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User?    @relation(fields: [userId], references: [id])
+  booking Booking? @relation(fields: [bookingId], references: [id])
+
+  @@index([userId])
+  @@index([bookingId])
+  @@index([status])
+  @@map("notifications")
+}
+
+// ============================================================
+// DEMANDES DE RÉSERVATION MANUELLE
+// ============================================================
+
+model ManualBookingRequest {
+  id String @id @default(uuid()) @db.Char(36)
+
+  propertyId String @db.Char(36)
+
+  guestName  String @db.VarChar(100)
+  guestEmail String @db.VarChar(100)
+  guestPhone String @db.VarChar(20)
+
+  startDate DateTime
+  endDate   DateTime
+
+  numberOfGuests Int
+
+  totalAmount   Decimal @db.Decimal(12, 2)
+  depositAmount Decimal @db.Decimal(12, 2)
+
+  notes String? @db.Text
+
+  status ManualBookingStatus @default(pending)
+
+  createdBy String @db.Char(36)
+
+  processedBy String? @db.Char(36)
+
+  processedAt DateTime?
+
+  confirmationId String? @unique @db.VarChar(10)
+
+  bookingId String? @db.Char(36)
+
+  userId String? @db.Char(36)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User?    @relation(fields: [userId], references: [id])
+  booking Booking? @relation(fields: [bookingId], references: [id])
+
+  @@index([propertyId])
+  @@index([createdBy])
+  @@index([processedBy])
+  @@index([bookingId])
+  @@index([userId])
+  @@map("manual_booking_requests")
+}
+
+// ============================================================
+// LOGS D'AUDIT
+// ============================================================
+
+model AuditLog {
+  id String @id @default(uuid()) @db.Char(36)
+
+  userId String? @db.Char(36)
+
+  action String @db.VarChar(100)
+
+  entity String @db.VarChar(50)
+
+  entityId String? @db.Char(36)
+
+  oldValue String? @db.Text
+
+  newValue String? @db.Text
+
+  ipAddress String? @db.VarChar(45)
+
+  userAgent String? @db.Text
+
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([entity, entityId])
+  @@map("audit_logs")
+}
+
+// ============================================================
+// WHATSAPP
+// ============================================================
+
+model WhatsappSession {
+  id String @id @default(uuid()) @db.Char(36)
+
+  sessionId String @unique @db.VarChar(100)
+
+  phoneNumber String @db.VarChar(20)
+
+  status WhatsappSessionStatus @default(active)
+
+  qrCode String? @db.Text
+
+  lastActivityAt DateTime @default(now())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([phoneNumber])
+  @@index([status])
+  @@map("whatsapp_sessions")
+}
+
+// ============================================================
+// HISTORIQUE DES RECHERCHES
+// ============================================================
+
+model UserSearchHistory {
+  id String @id @default(uuid()) @db.Char(36)
+
+  userId String? @db.Char(36)
+
+  searchParams String @db.Text
+
+  resultsCount Int @default(0)
+
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@map("user_search_history")
+}
+
+// ============================================================
+// PUBLICATIONS / BLOG
+// ============================================================
+
+model Publication {
+  id String @id @default(uuid()) @db.Char(36)
+
+  title String @db.VarChar(255)
+
+  slug String @unique @db.VarChar(191)
+
+  content String @db.Text
+
+  excerpt String? @db.Text
+
+  featuredImage String? @db.VarChar(255)
+
+  status PublicationStatus @default(draft)
+
+  category String? @db.VarChar(255)
+
+  tags Json?
+
+  authorId String @db.Char(36)
+
+  publishedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  author User @relation(fields: [authorId], references: [id])
+
+  @@index([authorId])
+  @@index([status])
+  @@map("publications")
+}

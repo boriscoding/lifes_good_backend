@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reçu de paiement - Liife'is Good</title>
+</head>
+
+<body style="margin:0; padding:0; background-color:#f4f6f8; font-family:Arial, Helvetica, sans-serif; color:#1f2937;">
+
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f4f6f8; padding:40px 15px;">
+    <tr>
+      <td align="center">
+
+```
+    <!-- Carte principale -->
+    <table width="100%" cellpadding="0" cellspacing="0" border="0"
+      style="max-width:620px; background:#ffffff; border-radius:14px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+
+      <!-- Header -->
+      <tr>
+        <td style="background:linear-gradient(135deg,#1f4f8f,#2c6bb2); padding:35px 30px; text-align:center;">
+
+          <div style="font-size:28px; font-weight:bold; color:#ffffff; margin-bottom:8px;">
+            Liife'is Good
+          </div>
+
+          <div style="font-size:14px; color:#dbeafe;">
+            Complexe immobilier
+          </div>
+
+        </td>
+      </tr>
+
+      <!-- Icône paiement réussi -->
+      <tr>
+        <td align="center" style="padding:35px 30px 10px;">
+
+          <div style="
+            width:64px;
+            height:64px;
+            line-height:64px;
+            border-radius:50%;
+            background:#e8f7ee;
+            color:#22a06b;
+            font-size:32px;
+            font-weight:bold;
+            margin:auto;
+          ">
+            ✓
+          </div>
+
+        </td>
+      </tr>
+
+      <!-- Contenu -->
+      <tr>
+        <td style="padding:15px 40px 35px;">
+
+          <h1 style="
+            margin:0 0 15px;
+            text-align:center;
+            font-size:25px;
+            color:#1f2937;
+          ">
+            Paiement reçu avec succès
+          </h1>
+
+          <p style="
+            margin:0 0 12px;
+            font-size:16px;
+            color:#374151;
+          ">
+            Bonjour,
+          </p>
+
+          <p style="
+            margin:0 0 25px;
+            font-size:15px;
+            line-height:1.7;
+            color:#6b7280;
+          ">
+            Nous vous confirmons que votre paiement a bien été reçu et
+            enregistré. Vous trouverez ci-dessous les détails de votre transaction.
+          </p>
+
+          <!-- Montant -->
+          <table width="100%" cellpadding="0" cellspacing="0" border="0"
+            style="background:#f8fafc; border:1px solid #e5e7eb; border-radius:10px; margin-bottom:20px;">
+
+            <tr>
+              <td align="center" style="padding:22px 20px;">
+
+                <div style="
+                  font-size:12px;
+                  text-transform:uppercase;
+                  letter-spacing:1px;
+                  color:#6b7280;
+                  margin-bottom:7px;
+                ">
+                  Montant payé
+                </div>
+
+                <div style="
+                  font-size:30px;
+                  font-weight:bold;
+                  color:#2c5aa0;
+                ">
+                  {{amount}} FCFA
+                </div>
+
+              </td>
+            </tr>
+
+          </table>
+
+          <!-- Détails transaction -->
+          <table width="100%" cellpadding="0" cellspacing="0" border="0"
+            style="background:#ffffff; border:1px solid #e5e7eb; border-radius:10px; overflow:hidden;">
+
+            <tr>
+              <td colspan="2" style="
+                padding:18px 20px;
+                background:#f1f5f9;
+                border-bottom:1px solid #e5e7eb;
+                font-size:16px;
+                font-weight:bold;
+                color:#1f2937;
+              ">
+                Détails du paiement
+              </td>
+            </tr>
+
+            <tr>
+              <td style="padding:15px 20px 7px; font-size:14px; color:#6b7280;">
+                Référence
+              </td>
+
+              <td align="right" style="padding:15px 20px 7px; font-size:14px; font-weight:bold; color:#1f2937;">
+                {{reference}}
+              </td>
+            </tr>
+
+            <tr>
+              <td style="padding:7px 20px; font-size:14px; color:#6b7280;">
+                Date
+              </td>
+
+              <td align="right" style="padding:7px 20px; font-size:14px; font-weight:bold; color:#1f2937;">
+                {{date}}
+              </td>
+            </tr>
+
+            <tr>
+              <td style="padding:7px 20px 18px; font-size:14px; color:#6b7280;">
+                Méthode de paiement
+              </td>
+
+              <td align="right" style="padding:7px 20px 18px; font-size:14px; font-weight:bold; color:#1f2937;">
+                {{method}}
+              </td>
+            </tr>
+
+          </table>
+
+          <!-- Information -->
+          <table width="100%" cellpadding="0" cellspacing="0" border="0"
+            style="
+              margin-top:22px;
+              background:#eff6ff;
+              border-left:4px solid #2c6bb2;
+              border-radius:6px;
+            ">
+
+            <tr>
+              <td style="
+                padding:14px 16px;
+                font-size:13px;
+                line-height:1.6;
+                color:#475569;
+              ">
+                <strong style="color:#1e40af;">
+                  Conservez ce reçu
+                </strong>
+                <br>
+                Nous vous recommandons de conserver cet email comme preuve
+                de paiement pour vos archives.
+              </td>
+            </tr>
+
+          </table>
+
+          <p style="
+            margin:28px 0 5px;
+            font-size:15px;
+            color:#374151;
+          ">
+            Merci pour votre confiance.
+          </p>
+
+          <p style="
+            margin:0;
+            font-size:15px;
+            font-weight:bold;
+            color:#1f2937;
+          ">
+            L'équipe Liife'is Good
+          </p>
+
+        </td>
+      </tr>
+
+      <!-- Footer -->
+      <tr>
+        <td style="
+          background:#f8fafc;
+          border-top:1px solid #e5e7eb;
+          padding:25px 30px;
+          text-align:center;
+        ">
+
+          <p style="
+            margin:0 0 8px;
+            font-size:13px;
+            font-weight:bold;
+            color:#374151;
+          ">
+            Liife'is Good
+          </p>
+
+          <p style="
+            margin:0 0 12px;
+            font-size:12px;
+            color:#9ca3af;
+          ">
+            Complexe immobilier
+          </p>
+
+          <p style="
+            margin:0;
+            font-size:11px;
+            line-height:1.5;
+            color:#9ca3af;
+          ">
+            Ceci est un reçu électronique généré automatiquement.
+            <br>
+            Merci de ne pas répondre directement à cet email.
+          </p>
+
+        </td>
+      </tr>
+
+    </table>
+
+    <!-- Copyright -->
+    <p style="
+      margin:20px 0 0;
+      text-align:center;
+      font-size:11px;
+      color:#9ca3af;
+    ">
+      © Liife'is Good — Tous droits réservés.
+    </p>
+
+  </td>
+</tr>
+```
+
+  </table>
+
+</body>
+</html>
